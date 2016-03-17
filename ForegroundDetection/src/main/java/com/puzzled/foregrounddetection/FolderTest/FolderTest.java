@@ -16,7 +16,7 @@ import java.nio.file.Paths;
  */
 public class FolderTest {
     public static void main(String[] args) throws IOException{
-        File folder = new File("assets//images");
+        File folder = new File("assets//trainingset");
     for (final File fileEntry : folder.listFiles()) {
 
             System.out.println(fileEntry.getPath());

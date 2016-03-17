@@ -5,6 +5,7 @@
  */
 package com.puzzled.foregrounddetection;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,22 +17,33 @@ import java.util.logging.Logger;
 public class MainLearner {
     public static void main(String[] args){
         RGBLearner rgbLearner = new RGBLearner("encogexample.eg", "encogexample2.eg");
+        File folder = new File("assets//trainingset");
         
+
         for(int i = 0; i< 100; i++){
             System.out.println(i);
-            try {
-                rgbLearner.train("assets//images//3002154.jpg");
-                rgbLearner.train("assets//images//9002577.jpg");
-                rgbLearner.train("assets//images//1001685.jpg");
-                rgbLearner.train("assets//images//9000868.jpg"); //blue car
-                rgbLearner.train("assets//images//1100007.jpg");
+            
+            for (final File fileEntry : folder.listFiles()) {
+                if(!fileEntry.isDirectory())
+                try {
+                    
+                    rgbLearner.train(fileEntry.getPath());        
+                    //System.out.println(fileEntry.getPath());
                 
-                
-            } catch (IOException ex) {
-                System.out.println("Could not find image at "+ex.getMessage());
-            }
+                } catch (IOException ex) {
+                    
+                    System.out.println("Could not find image at "+fileEntry.getPath());
+                    
+                }
             //rgbLearner.endTraining();
+            }
+            
         }
+       
         rgbLearner.endTraining();
+     
+        
+       
+
     }
 }

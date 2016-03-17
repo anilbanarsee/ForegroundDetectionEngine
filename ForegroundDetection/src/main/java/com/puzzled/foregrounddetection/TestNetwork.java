@@ -102,7 +102,7 @@ public class TestNetwork {
              for(MLDataPair pair: trainingSet){
                     final MLData output = network.compute(pair.getInput());
                     //System.out.println(Arrays.toString(output.getData()));
-                    if(output.getData(0)>=0.3){
+                    if(output.getData(0)>=0.8){
                         image.setRGB(i, y, rgbRed);
                         //System.out.println(Arrays.toString(output.getData()));
                     }
