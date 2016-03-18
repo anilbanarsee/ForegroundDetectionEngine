@@ -46,8 +46,8 @@ public class RGBLearner {
         rgbRed = (rgbRed << 8) + 0;
         rgbRed = (rgbRed << 8) + 0;
         
-        String code = imagePath.substring(19,imagePath.length()-4);
-        String regionPath = "assets//labels//"+code+".regions.txt";
+
+        String regionPath = Utils.convertToRegionFile(imagePath);
         
         final File imageFile = new File(imagePath);
         final File regionFile = new File(regionPath);
@@ -94,7 +94,7 @@ public class RGBLearner {
                 }
 
                 else
-                    outputs[x] = new double[]{0.09};
+                    outputs[x] = new double[]{0.1};
                     
             }
              trainingSet = new BasicMLDataSet(inputs, outputs);

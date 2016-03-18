@@ -40,15 +40,9 @@ public class TestNetwork {
         rgbRed = (rgbRed << 8) + 0;
          
         
-        ArrayList<String> images = new ArrayList<>();
-        images.add("assets//images//3002154.jpg");
-        images.add("assets//images//9000868.jpg");
-        images.add("assets//images//1001685.jpg");
-        //images.add("assets//images//3000148.jpg");
-        images.add("assets//images//9002577.jpg");
-        images.add("assets//images//1100007.jpg");
-        
-        for(String FILENAME : images){
+        File folder = new File("assets//trainingset");
+        for (final File file : folder.listFiles()) {
+            
         //String FILENAME = "assets//images//3002154.jpg"; //main
         //String FILENAME = "assets//images//9000868.jpg"; //main
         //String FILENAME = "assets//images//1001685.jpg";
@@ -57,7 +51,10 @@ public class TestNetwork {
         //String FILENAME = "assets//images//1100007.jpg";
         //String FILENAME = "assets//test.png";
         
-        File file = new File(FILENAME);
+        if(file.isDirectory()){
+            
+        }
+        else{
         
         BasicNetwork network = (BasicNetwork)EncogDirectoryPersistence.loadObject(new File("encogexample2.eg"));
         
@@ -102,9 +99,9 @@ public class TestNetwork {
              for(MLDataPair pair: trainingSet){
                     final MLData output = network.compute(pair.getInput());
                     //System.out.println(Arrays.toString(output.getData()));
-                    if(output.getData(0)>=0.8){
+                    if(output.getData(0)>=0.1){
                         image.setRGB(i, y, rgbRed);
-                        //System.out.println(Arrays.toString(output.getData()));
+                        System.out.println(Arrays.toString(output.getData()));
                     }
                     else{
                         
@@ -127,7 +124,8 @@ public class TestNetwork {
         frame.setVisible(true);
         frame.setSize(400,400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle(FILENAME);
+        frame.setTitle(file.getName());
+        }
         }
         Encog.getInstance().shutdown();
     }

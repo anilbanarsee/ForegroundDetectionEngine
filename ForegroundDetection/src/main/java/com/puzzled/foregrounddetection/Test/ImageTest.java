@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.puzzled.foregrounddetection.FolderTest;
+package com.puzzled.foregrounddetection.Test;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
