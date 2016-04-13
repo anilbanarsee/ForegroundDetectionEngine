@@ -18,9 +18,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.encog.Encog;
+import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
+import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.persist.EncogDirectoryPersistence;
@@ -39,7 +41,17 @@ public class RGBLearner {
         this.desPath = desPath;
         network = (BasicNetwork)EncogDirectoryPersistence.loadObject(new File(epath));
     }
-    
+    public static void createNewNetwork(String path) throws IOException{
+        BasicNetwork network;
+        network = new BasicNetwork();
+        network.addLayer(new BasicLayer(null, true, 10));
+        network.addLayer(new BasicLayer(new ActivationSigmoid(),true,4));
+        network.addLayer(new BasicLayer(new ActivationSigmoid(),false,1));
+        network.getStructure().finalizeStructure();
+        network.reset();
+        EncogDirectoryPersistence.saveObject(new File(path), network);
+        Encog.getInstance().shutdown();
+    }
     public double train(String imagePath) throws IOException{
         
                   int rgbRed = 255;
@@ -85,7 +97,7 @@ public class RGBLearner {
                 
                 
                 
-                inputs[x] = new double[]{red, green, blue, red*red, green*green, blue*blue, red*green, red*blue, green*blue};
+                inputs[x] = new double[]{1,red, green, blue, red*red, green*green, blue*blue, red*green, red*blue, green*blue};
                 
                 if(Integer.parseInt(splitLine[x])==7){
                     //image.setRGB(x,y,rgbRed);

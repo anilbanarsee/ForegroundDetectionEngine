@@ -5,13 +5,9 @@
  */
 package com.puzzled.foregrounddetection;
 
-
-
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -31,21 +27,12 @@ import org.encog.persist.EncogDirectoryPersistence;
  *
  * @author Reetoo
  */
-public class TestNetwork {
-    
-    
-    
-    public static void main(String[] args){
+public class TestIntNetwork {
+        public static void main(String[] args){
         
           int rgbRed = 255;
         rgbRed = (rgbRed << 8) + 0;
         rgbRed = (rgbRed << 8) + 0;
-        
-        int rgbBlue = 0;
-        rgbBlue = (rgbBlue << 8) + 0;
-        rgbBlue = (rgbBlue << 8) + 255;
-        
-        rgbRed = (rgbBlue + rgbRed)/2;
          
         
         File folder = new File("assets//trainingset");
@@ -63,9 +50,8 @@ public class TestNetwork {
             
         }
         else{
-         
-        BasicNetwork network = (BasicNetwork)EncogDirectoryPersistence.loadObject(new File("encogexample2.eg"));
         
+        BasicNetwork network = (BasicNetwork)EncogDirectoryPersistence.loadObject(new File("intensitytrain.eg"));
         
         BufferedImage image = null;
         try{
@@ -90,7 +76,7 @@ public class TestNetwork {
                 final int green = (clr & 0x0000ff00) >> 8;
                 final int blue = clr & 0x000000ff;
                 
-                inputs[x] = new double[]{1,red, green, blue, red*red, green*green, blue*blue, red*green, red*blue, green*blue};
+                inputs[x] = new double[]{red, green, blue, red*red, green*green, blue*blue, red*green, red*blue, green*blue};
                     
                     //System.out.println("Hello");
                     
@@ -101,7 +87,6 @@ public class TestNetwork {
                 
                 
             }
-            Color[] colors = new Color[]{Color.WHITE,Color.MAGENTA,Color.GREEN,Color.BLUE,Color.CYAN,Color.YELLOW,Color.ORANGE,Color.RED,Color.BLACK};
             
             
              trainingSet = new BasicMLDataSet(inputs, outputs);
@@ -109,60 +94,12 @@ public class TestNetwork {
              for(MLDataPair pair: trainingSet){
                     final MLData output = network.compute(pair.getInput());
                     //System.out.println(Arrays.toString(output.getData()));
-                    
-                    if(output.getData(0)>=0.1){
-                         image.setRGB(i, y, colors[0].getRGB());
-                        //image.setRGB(i, y, rgbRed);
+                    if(output.getData(0)>=0.208771588){
+                        image.setRGB(i, y, rgbRed);
                         //System.out.println(Arrays.toString(output.getData()));
                     }
-                    if(output.getData(0)>=0.2){
-                         image.setRGB(i, y, colors[1].getRGB());
-                        //image.setRGB(i, y, rgbRed);
-                        //System.out.println(Arrays.toString(output.getData()));
-                    }
-                    if(output.getData(0)>=0.3){
-                         image.setRGB(i, y, colors[2].getRGB());
-                        //image.setRGB(i, y, rgbRed);
-                        //System.out.println(Arrays.toString(output.getData()));
-                    }
-                    if(output.getData(0)>=0.4){
-                         image.setRGB(i, y, colors[3].getRGB());
-                        //image.setRGB(i, y, rgbRed);
-                        //System.out.println(Arrays.toString(output.getData()));
-                    }
-                    if(output.getData(0)>=0.5){
-                         image.setRGB(i, y, colors[4].getRGB());
-                        //image.setRGB(i, y, rgbRed);
-                        //System.out.println(Arrays.toString(output.getData()));
-                    }
-                    if(output.getData(0)>=0.6){
-                         image.setRGB(i, y, colors[5].getRGB());
-                        //image.setRGB(i, y, rgbRed);
-                        //System.out.println(Arrays.toString(output.getData()));
-                    }
-                    if(output.getData(0)>=0.7){
-                         image.setRGB(i, y, colors[6].getRGB());
-                        //image.setRGB(i, y, rgbRed);
-                        //System.out.println(Arrays.toString(output.getData()));
-                    }
-                    if(output.getData(0)>=0.8){
-                         image.setRGB(i, y, colors[7].getRGB());
-                        //image.setRGB(i, y, rgbRed);
-                        //System.out.println(Arrays.toString(output.getData()));
-                    }
-                    if(output.getData(0)>=0.9){
-                         image.setRGB(i, y, colors[8].getRGB());
-                        //image.setRGB(i, y, rgbRed);
-                        //System.out.println(Arrays.toString(output.getData()));
-                    }
-                    if(output.getData(0)>=1.0){
-                         image.setRGB(i, y, colors[9].getRGB());
-                        //image.setRGB(i, y, rgbRed);
-                        //System.out.println(Arrays.toString(output.getData()));
-                    }
-
                     else{
-                       
+                        
                         //System.out.print("O");
                     }
                     i++;

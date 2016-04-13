@@ -64,7 +64,7 @@ public class Learner {
         BasicNetwork network = null;
         if(test){
         network = new BasicNetwork();
-        network.addLayer(new BasicLayer(null, true, 9));
+        network.addLayer(new BasicLayer(null, true, 10));
         network.addLayer(new BasicLayer(new ActivationSigmoid(),true,4));
         network.addLayer(new BasicLayer(new ActivationSigmoid(),false,1));
         network.getStructure().finalizeStructure();
