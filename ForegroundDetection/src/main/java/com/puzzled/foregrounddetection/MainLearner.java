@@ -21,7 +21,7 @@ public class MainLearner {
         File folder = new File("assets//trainingset");
         
 
-        for(int i = 0; i< 5; i++){
+        for(int i = 0; i< 1; i++){
             System.out.println(i);
             
             for (final File fileEntry : folder.listFiles()) {

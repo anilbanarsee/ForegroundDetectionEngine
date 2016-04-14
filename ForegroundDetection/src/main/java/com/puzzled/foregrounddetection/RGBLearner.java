@@ -106,7 +106,7 @@ public class RGBLearner {
                 }
 
                 else
-                    outputs[x] = new double[]{0.1};
+                    outputs[x] = new double[]{0.5};
                     
             }
              trainingSet = new BasicMLDataSet(inputs, outputs);
