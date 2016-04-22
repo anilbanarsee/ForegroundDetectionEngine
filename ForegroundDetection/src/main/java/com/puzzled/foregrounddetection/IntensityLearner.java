@@ -74,11 +74,11 @@ public class IntensityLearner {
                     inputs[x] = new double[]{1,clr,clr*clr};
                     
                     if(Integer.parseInt(splitLine[x])==7){
-                        outputs[x] = new double[]{1.0};
+                        outputs[x] = new double[]{0.0};
                     }
                     
                     else
-                        outputs[x] = new double[]{0.1};
+                        outputs[x] = new double[]{0.9};
                     
                 }
                 trainingSet = new BasicMLDataSet(inputs, outputs);

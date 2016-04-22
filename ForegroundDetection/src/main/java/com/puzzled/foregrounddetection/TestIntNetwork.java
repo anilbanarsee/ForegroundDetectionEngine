@@ -5,6 +5,7 @@
  */
 package com.puzzled.foregrounddetection;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -71,12 +72,14 @@ public class TestIntNetwork {
             
             
             for (int x = 0; x < image.getWidth(); x++) {
-                final int clr = image.getRGB(x, y);
+                int clr = image.getRGB(x, y);
                 final int red = (clr & 0x00ff0000) >> 16;
                 final int green = (clr & 0x0000ff00) >> 8;
                 final int blue = clr & 0x000000ff;
                 
-                inputs[x] = new double[]{red, green, blue, red*red, green*green, blue*blue, red*green, red*blue, green*blue};
+                clr = getIntensity(red, green, blue);
+                
+                inputs[x] = new double[]{1, green, blue};
                     
                     //System.out.println("Hello");
                     
@@ -88,14 +91,51 @@ public class TestIntNetwork {
                 
             }
             
-            
+              Color[] colors = new Color[]{Color.WHITE,Color.MAGENTA,Color.GREEN,Color.BLUE,Color.CYAN,Color.YELLOW,Color.ORANGE,Color.RED,Color.BLACK, Color.GRAY};
+
              trainingSet = new BasicMLDataSet(inputs, outputs);
              int i = 0;
              for(MLDataPair pair: trainingSet){
                     final MLData output = network.compute(pair.getInput());
                     //System.out.println(Arrays.toString(output.getData()));
-                    if(output.getData(0)>=0.208771588){
-                        image.setRGB(i, y, rgbRed);
+                    if(output.getData(0)>=0.2){
+                         image.setRGB(i, y, colors[1].getRGB());
+                        //image.setRGB(i, y, rgbRed);
+                        //System.out.println(Arrays.toString(output.getData()));
+                    }
+                    if(output.getData(0)>=0.3){
+                         image.setRGB(i, y, colors[2].getRGB());
+                        //image.setRGB(i, y, rgbRed);
+                        //System.out.println(Arrays.toString(output.getData()));
+                    }
+                    if(output.getData(0)>=0.4){
+                         image.setRGB(i, y, colors[3].getRGB());
+                        //image.setRGB(i, y, rgbRed);
+                        //System.out.println(Arrays.toString(output.getData()));
+                    }
+                    if(output.getData(0)>=0.5){
+                         image.setRGB(i, y, colors[4].getRGB());
+                        //image.setRGB(i, y, rgbRed);
+                        //System.out.println(Arrays.toString(output.getData()));
+                    }
+                    if(output.getData(0)>=0.6){
+                         image.setRGB(i, y, colors[5].getRGB());
+                        //image.setRGB(i, y, rgbRed);
+                        //System.out.println(Arrays.toString(output.getData()));
+                    }
+                    if(output.getData(0)>=0.7){
+                         image.setRGB(i, y, colors[6].getRGB());
+                        //image.setRGB(i, y, rgbRed);
+                        //System.out.println(Arrays.toString(output.getData()));
+                    }
+                    if(output.getData(0)>=0.8){
+                         image.setRGB(i, y, colors[7].getRGB());
+                        //image.setRGB(i, y, rgbRed);
+                        //System.out.println(Arrays.toString(output.getData()));
+                    }
+                    if(output.getData(0)>=0.9){
+                         image.setRGB(i, y, colors[8].getRGB());
+                        //image.setRGB(i, y, rgbRed);
                         //System.out.println(Arrays.toString(output.getData()));
                     }
                     else{
@@ -123,5 +163,12 @@ public class TestIntNetwork {
         }
         }
         Encog.getInstance().shutdown();
+    }
+    public static int getIntensity(int r, int g, int b){
+         
+        int i = (r+g+b)/3;
+        
+        return i;
+       
     }
 }

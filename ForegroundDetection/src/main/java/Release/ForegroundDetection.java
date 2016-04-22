@@ -5,6 +5,7 @@
  */
 package Release;
 
+import ImageProcessing.ImageProcessing;
 import ImageSegmentation.ImageSegmentation;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -32,14 +33,16 @@ public class ForegroundDetection {
     BasicNetwork network;
     BufferedImage image;
     int numberOfRegions;
-    double threshold = 0.8;
+    double threshold = 0.7;
     
     public ForegroundDetection(String path){
         network = (BasicNetwork)EncogDirectoryPersistence.loadObject(new File(path));
     }
     public void setImage(String path) throws IOException{
         
+        BufferedImage image2 = ImageIO.read(new File(path));
         image = ImageIO.read(new File(path));
+        //ImageProcessing.blur(image2, image);
         foreground = new int[image.getWidth()][image.getHeight()];
     }
     public BufferedImage getForegroundPixels(String path){
@@ -60,8 +63,17 @@ public class ForegroundDetection {
                 final int green = (clr & 0x0000ff00) >> 8;
                 final int blue = clr & 0x000000ff;
                 
-                inputs[x] = new double[]{red, green, blue, red*red, green*green, blue*blue, red*green, red*blue, green*blue};
-                    
+                 double r = red;
+                double g = green;
+                double b = blue;
+                double total = r+g+b;
+                
+                r = r/total;
+                g = g/total;
+                b = b/total;
+                
+                
+                inputs[x] = new double[]{1, r, g, b};  
                     //System.out.println("Hello");
                     
                 
@@ -79,7 +91,7 @@ public class ForegroundDetection {
                     final MLData output = network.compute(pair.getInput());
                     //System.out.println(Arrays.toString(output.getData()));
                     if(output.getData(0)>=threshold){
-                        image.setRGB(i, y, Color.RED.getRGB());
+                        //image.setRGB(i, y, Color.RED.getRGB());
                         foreground[i][y] = 1;
                         //System.out.println(Arrays.toString(output.getData()));
                     }
@@ -109,48 +121,54 @@ public class ForegroundDetection {
                 regionHist[regions[x][y]][0]++;
             }
         }
+         int index = 0;
+        {
+                double x = 0.5;
+        double y = 0.05;
+        
+        x =  x*image.getWidth();
+        y =  y*image.getHeight();
+        
+        int xPos = (int) x;
+        int yPos = (int) y;
+        index = regions[xPos][yPos];
+        
+        System.out.println("hello"+xPos +", "+ yPos);
+            System.out.println("debug "+regions[xPos][yPos]);
+            regionHist[regions[xPos][yPos]][1] = 0;
+            //image.setRGB(xPos, yPos, Color.RED.getRGB());
+        }
         for(int[] i: regionHist){
             //System.out.println(Arrays.toString(i));
         }
         for(int x=0; x<regions.length; x++){
             for(int y=0; y<regions[0].length; y++){
                 
+                //System.out.print(regions[x][y]+" :");
+                
                 double perc = regionHist[regions[x][y]][1];
                 perc = perc/regionHist[regions[x][y]][0];
                 
-                image.setRGB(x, y, Color.WHITE.getRGB());
-                if(perc>0.3){
+                //System.out.println(perc+"");
+                
+                if(regions[x][y]==index){
+                    image.setRGB(x, y, Color.WHITE.getRGB());
+                }
+                else{
+                
+                //image.setRGB(x, y, Color.WHITE.getRGB());
+                if(perc>0.9){
                     image.setRGB(x, y, Color.WHITE.getRGB());
                     //System.out.println(perc);
                 }
-                if(perc>0.4){
-                    image.setRGB(x, y, Color.BLUE.getRGB());
-                    //System.out.println(perc);
+             
                 }
-                if(perc>0.5){
-                    image.setRGB(x, y, Color.GREEN.getRGB());
-                    //System.out.println(perc);
-                }
-                if(perc>0.6){
-                    image.setRGB(x, y, Color.YELLOW.getRGB());
-                    //System.out.println(perc);
-                }
-                if(perc>0.7){
-                image.setRGB(x, y, Color.ORANGE.getRGB());
-                    //System.out.println(perc);
-                }
-                if(perc>0.8){
-                    image.setRGB(x, y, Color.RED.getRGB());
-                    //System.out.println(perc);
-                }
-                if(perc>0.9){
-                    image.setRGB(x, y, Color.BLACK.getRGB());
-                    //System.out.println(perc);
-                }
-
                 
             }
         }
+
+        
+        
     }
     public void generateRegions(String path){
         ImageSegmentation ig = new ImageSegmentation(path);

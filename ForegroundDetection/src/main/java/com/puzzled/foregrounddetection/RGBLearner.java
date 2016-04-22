@@ -75,7 +75,7 @@ public class RGBLearner {
             System.out.println("****************************| ERROR CANNOT FIND REGION FILE AT "+regionPath+" |****************************");
         }
         
-        double[][] inputs = new double[image.getWidth()][9];
+        double[][] inputs = new double[image.getWidth()][4];
         double[][] outputs = new double[image.getWidth()][1];
         
         MLDataSet trainingSet = null;
@@ -95,6 +95,16 @@ public class RGBLearner {
                 final int green = (clr & 0x0000ff00) >> 8;
                 final int blue = clr & 0x000000ff;
                 
+                double r = red;
+                double g = green;
+                double b = blue;
+                
+                double total = r+g+b;
+                
+                r = r/total;
+                g = g/total;
+                b = b/total;
+
                 
                 
                 inputs[x] = new double[]{1,red, green, blue, red*red, green*green, blue*blue, red*green, red*blue, green*blue};
@@ -106,11 +116,15 @@ public class RGBLearner {
                 }
 
                 else
-                    outputs[x] = new double[]{0.5};
+                    outputs[x] = new double[]{0.1};
+                
+                
                     
             }
+            
              trainingSet = new BasicMLDataSet(inputs, outputs);
              train = new ResilientPropagation(network, trainingSet);
+             //System.out.println(train.getError());
              //train = new Backpropagation(network, trainingSet);
              train.iteration();            
         }

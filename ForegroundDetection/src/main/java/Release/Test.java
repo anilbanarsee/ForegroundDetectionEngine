@@ -22,7 +22,7 @@ public class Test {
     public static void main(String[] args) throws IOException{
     
         ForegroundDetection fd = new ForegroundDetection("encogexample2.eg");
-        String path = "assets/cow.jpg";
+        String path = "assets/catka.jpg";
         fd.setImage(path);
              
             BufferedImage image = fd.getForegroundPixels(path);

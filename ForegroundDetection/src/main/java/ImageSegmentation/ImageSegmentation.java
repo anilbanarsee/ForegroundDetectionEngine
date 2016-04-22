@@ -5,6 +5,7 @@
  */
 package ImageSegmentation;
 
+import ImageProcessing.ImageProcessing;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -40,7 +41,9 @@ public class ImageSegmentation {
         seeds = new ArrayList<>();
         colors = new ArrayList<>();
         try {
+            BufferedImage tempimage = ImageIO.read(new File(path));
             image = ImageIO.read(new File(path));
+            image = ImageProcessing.blur(tempimage, image);
             mergeImage = ImageIO.read(new File(path));
         } catch (IOException ex) {
             System.out.println("Could not find image at "+path);
@@ -384,7 +387,8 @@ public class ImageSegmentation {
 
             }
         
-        int n = regions[50][50];
+        int n = regions[5][5];
+        System.out.println("DEBUG "+n);
         for(int x=0; x<regions.length; x++)
             for(int y=0; y<regions[0].length; y++)
                 if(regions[x][y]==n){
