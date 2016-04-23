@@ -131,8 +131,8 @@ public class TestNetwork {
                     
 
 
-                    if(output.getData(0)>=0.95){
-                         image.setRGB(i, y, colors[2].getRGB());
+                    if(output.getData(0)>=0.9){
+                         image.setRGB(i, y, Color.WHITE.getRGB());
                         //image.setRGB(i, y, rgbRed);
                         //System.out.println(Arrays.toString(output.getData()));
                     }

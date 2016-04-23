@@ -35,12 +35,14 @@ public class ImageSegmentation {
     BufferedImage mergeImage;
     int mergeThreshold = 40;
     int threshold = 100;
+    String filename = "";
     
     
     public ImageSegmentation(String path){
         seeds = new ArrayList<>();
         colors = new ArrayList<>();
         try {
+            filename = new File(path).getName();
             BufferedImage tempimage = ImageIO.read(new File(path));
             image = ImageIO.read(new File(path));
             image = ImageProcessing.blur(tempimage, image);
@@ -387,13 +389,7 @@ public class ImageSegmentation {
 
             }
         
-        int n = regions[5][5];
-        System.out.println("DEBUG "+n);
-        for(int x=0; x<regions.length; x++)
-            for(int y=0; y<regions[0].length; y++)
-                if(regions[x][y]==n){
-                mergeImage.setRGB(x, y, rgbRed);
-                }
+      
         
         mColors = mergedColors;
         return mergedColors.size();
@@ -451,6 +447,11 @@ public class ImageSegmentation {
         JFrame frame = new JFrame();
         JPanel panel = new JPanel();
         
+           try {
+            ImageIO.write(image, "jpg", new File("mainout/um"+filename));
+        } catch (IOException ex) {
+            Logger.getLogger(ImageSegmentation.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ImageIcon img = new ImageIcon(image);
         
         JLabel imgLabel = new JLabel(img);
@@ -464,6 +465,11 @@ public class ImageSegmentation {
     public void testMergeImage(){
         JFrame frame = new JFrame();
         JPanel panel = new JPanel();
+        try {
+            ImageIO.write(mergeImage, "jpg", new File("mainout/m"+filename));
+        } catch (IOException ex) {
+            Logger.getLogger(ImageSegmentation.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         ImageIcon img = new ImageIcon(mergeImage);
         
