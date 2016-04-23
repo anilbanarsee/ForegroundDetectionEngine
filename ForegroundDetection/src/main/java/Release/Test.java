@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 public class Test {
     public static void main(String[] args) throws IOException{
     
-        ForegroundDetection fd = new ForegroundDetection("encogexample2.eg");
+        ForegroundDetection fd = new ForegroundDetection("rgbtrain.eg");
         String path = "assets/catka.jpg";
         fd.setImage(path);
              

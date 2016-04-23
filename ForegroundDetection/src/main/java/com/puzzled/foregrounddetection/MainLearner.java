@@ -16,13 +16,14 @@ import java.util.logging.Logger;
  */
 public class MainLearner {
     public static void main(String[] args){
-        RGBLearner rgbLearner = new RGBLearner("encogexample.eg", "encogexample2.eg");
+        RGBLearner rgbLearner = new RGBLearner("rgbstart.eg", "rgbtrain.eg");
+        OldRGBTrainer oldrgbtrain = new OldRGBTrainer("encogexample.eg", "encogexample2.eg");
         IntensityLearner intLearner = new IntensityLearner("intensitystart.eg","intensitytrain.eg");
         LocationTrainer locationTrainer = new LocationTrainer("locationstart.eg","locationtrain.eg");
         File folder = new File("assets//trainingset");
         
 
-        for(int i = 0; i< 50; i++){
+        for(int i = 0; i< 2; i++){
             System.out.println(i);
             
             for (final File fileEntry : folder.listFiles()) {
@@ -32,6 +33,7 @@ public class MainLearner {
                     rgbLearner.train(fileEntry.getPath());
                     intLearner.train(fileEntry.getPath());
                     locationTrainer.train(fileEntry.getPath());
+                    oldrgbtrain.train(fileEntry.getPath());
                     //System.out.println(d);
                 
                 } catch (IOException ex) {
@@ -47,6 +49,7 @@ public class MainLearner {
         rgbLearner.endTraining();
         intLearner.endTraining();
         locationTrainer.endTraining();
+        oldrgbtrain.endTraining();
         
        
 

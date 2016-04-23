@@ -31,12 +31,12 @@ import org.encog.persist.EncogDirectoryPersistence;
  *
  * @author Reetoo
  */
-public class RGBLearner {
+public class OldRGBTrainer {
     String encogFilePath;
     String desPath;
     BasicNetwork network;
     
-    public RGBLearner(String epath, String desPath){
+    public OldRGBTrainer(String epath, String desPath){
         encogFilePath = epath;
         this.desPath = desPath;
         network = (BasicNetwork)EncogDirectoryPersistence.loadObject(new File(epath));
@@ -107,16 +107,16 @@ public class RGBLearner {
 
                 
                 
-                inputs[x] = new double[]{1,r, g, b};
+                inputs[x] = new double[]{1,red, green, blue, red*red, green*green, blue*blue, red*green, red*blue, blue*green};
                 
                 if(Integer.parseInt(splitLine[x])==7){
                     //image.setRGB(x,y,rgbRed);
-                    outputs[x] = new double[]{0.0};
+                    outputs[x] = new double[]{1.0};
                 
                 }
 
                 else
-                    outputs[x] = new double[]{0.99};
+                    outputs[x] = new double[]{0.1};
                 
                 
                     

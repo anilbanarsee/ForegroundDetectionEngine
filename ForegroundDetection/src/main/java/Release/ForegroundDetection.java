@@ -33,7 +33,7 @@ public class ForegroundDetection {
     BasicNetwork network;
     BufferedImage image;
     int numberOfRegions;
-    double threshold = 0.7;
+    double threshold = 0.85;
     
     public ForegroundDetection(String path){
         network = (BasicNetwork)EncogDirectoryPersistence.loadObject(new File(path));
@@ -42,7 +42,7 @@ public class ForegroundDetection {
         
         BufferedImage image2 = ImageIO.read(new File(path));
         image = ImageIO.read(new File(path));
-        //ImageProcessing.blur(image2, image);
+        ImageProcessing.blur(image2, image);
         foreground = new int[image.getWidth()][image.getHeight()];
     }
     public BufferedImage getForegroundPixels(String path){
@@ -123,7 +123,7 @@ public class ForegroundDetection {
         }
          int index = 0;
         {
-                double x = 0.5;
+                double x = 0.05;
         double y = 0.05;
         
         x =  x*image.getWidth();

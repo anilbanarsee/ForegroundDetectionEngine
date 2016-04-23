@@ -13,6 +13,6 @@ import java.io.IOException;
  */
 public class ResetNetwork {
     public static void main(String[] args) throws IOException{
-        RGBLearner.createNewNetwork("encogexample.eg");
+        RGBLearner.createNewNetwork("rgbstart.eg");
     }
 }

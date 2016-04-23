@@ -32,7 +32,7 @@ import org.encog.persist.EncogDirectoryPersistence;
  *
  * @author Reetoo
  */
-public class TestNetwork {
+public class OldRGBTester {
     
     
     
@@ -107,7 +107,7 @@ public class TestNetwork {
                 b = b/total;
 
                 
-                inputs[x] = new double[]{1,r, g, b};
+                inputs[x] = new double[]{1,red, green, blue, red*red, green*green, blue*blue, red*green, red*blue, green*blue};
                     
                     //System.out.println("Hello");
                     
@@ -131,7 +131,7 @@ public class TestNetwork {
                     
 
 
-                    if(output.getData(0)>=0.95){
+                    if(output.getData(0)>=0.5){
                          image.setRGB(i, y, colors[2].getRGB());
                         //image.setRGB(i, y, rgbRed);
                         //System.out.println(Arrays.toString(output.getData()));
